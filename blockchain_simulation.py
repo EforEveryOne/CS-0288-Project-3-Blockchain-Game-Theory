@@ -17,7 +17,7 @@ users = 10000
 # do users drop when majority attack happens?
 # if happens too often, users SHOULD lose confidence and leave the network
 
-initial_resource_pool = 100000;
+initial_resource_pool = 10000;
 
 
 
@@ -193,58 +193,16 @@ list_of_all_pools_in_network.append(BTCC_Pool)
 
 
 # Grab first pool
-print(list_of_all_pools_in_network[1])
+# print(list_of_all_pools_in_network[1])
 # grab 3th index of the 1st pool
-print(list_of_all_pools_in_network[1][2])
+# print(list_of_all_pools_in_network[1][2])
 
-# 
-print(list_of_all_pools_in_network[1][2] * list_of_all_pools_in_network[1][2])
-
-
-
-# test_list_pool.append(1, 18.8, 1000, )
-
-# at the 1th index
-# test_list_pool[1] = (test_list_pool[2] * initial_resource_pool)
-
-def calc_initial_resources(miner_pool_arg):
-	print("'This is the miner_list before calc_initial_resources:' " + str(miner_pool_arg))
-	miner_pool_arg[1] = (miner_pool_arg[2] * initial_resource_pool)
-	print("'This is the miner_list after calc_initial_resources:' " + str(miner_pool_arg) + "\n\n")
-
-calc_initial_resources(BTC_com_Pool)
-calc_initial_resources(AntPool)
-
-# calc_initial_resources(list_of_all_pools)
-# size of computational power from each list 
-
-
-network_total_computational_size = BTC_com_Pool[1] + AntPool[1]
-
-
-print("'The total computational power on the network across all pools:' " + str(network_total_computational_size))
+# print(list_of_all_pools_in_network[1][2] * list_of_all_pools_in_network[1][2])
 
 
 
 
-def print_list_details(miner_pool_arg):
-	print("'Name_tag @0th index:' " + str(miner_pool_arg[0]))
-	print("'Computational_size @1th index:' " + str(miner_pool_arg[1]))
-	print("'Control_% @2th index:' " + str(miner_pool_arg[2]))
-	print("'Upkeep_cost @3th index:' " + str(miner_pool_arg[3]))
-	print("'Resources @4th index:' " + str(miner_pool_arg[4]))
 
-
-
-print_list_details(BTC_com_Pool)
-print()
-print()
-print_list_details(AntPool)
-print()
-print()
-
-
-print_list_details(list_of_all_pools_in_network)
 
 
 # for x in range(len(list_of_all_pools)):
@@ -292,36 +250,6 @@ print_list_details(list_of_all_pools_in_network)
 # network a single pool has.
 
 
-
-
-
-
-# list_of_pools = []
-# list_of_pools.append(BTC_com_Pool)
-# list_of_pools.append(AntPool)
-# list_of_pools.append(SlushPool)
-# list_of_pools.append(ViaBTC_Pool)
-# list_of_pools.append(F2Pool)
-# list_of_pools.append(BTC_TOP_Pool)
-# list_of_pools.append(Poolin_Pool)
-# list_of_pools.append(unknown_Pool)
-# list_of_pools.append(DPOOL_Pool)
-# list_of_pools.append(BitFury_Pool)
-# list_of_pools.append(BitClub_Pool)
-# list_of_pools.append(Huobi_Pool)
-# list_of_pools.append(Bixin_pool)
-# list_of_pools.append(WAYI_CN_Pool)
-# list_of_pools.append(Bitcoin_com_Pool)
-# list_of_pools.append(BWPool)
-# list_of_pools.append(BTCC_Pool)
-
-# print(list_of_pools)
-
-def calc_total_control(x):
-	x.size
-
-
-
 # price of computation
 # upkeep_cost = 1
 # is upkeep a better word?
@@ -333,22 +261,6 @@ def calc_total_control(x):
 # bigger pool = more weight = more upkeep cost
 def calc_win_chance(list_of_pools):
 	print()
-
-
-
-	# for x in range(0, 17):
-		# print(x.name)
-		# print(x[0])
-		# print(x)
-		# print(list_of_pools.name)
-
-
-
-	# for i in range(0, list_of_pools.size):
-		# print(list_of_pools[i].name)
-
-		# print(i.resources)
-
 
 # mining should take in a single pool, then I can just call it for every pool
 # and append the weighted mining result to a list, the highest number will win and get the rewards.
@@ -416,16 +328,69 @@ def claim_reward(winning_pool):
 
 
 # MAIN
-mining(BTC_com_Pool)
+# mining(BTC_com_Pool)
 
 
-def print_all_pools(list):
+
+def print_all_pools(arg):
 	for x in range(len(list_of_all_pools_in_network)):
-		print(list_of_all_pools_in_network[x])
+		print(str(list_of_all_pools_in_network[x]))
+
+def print_list_details(arg):
+
+	for x in range(len(arg)):
+		print("'Name_tag 0th index:' " + str(arg[x][0]))
+		print("'Computational_size 1th index:' " + str(arg[x][1]))
+		print("'Control_% 2th index:' " + str(arg[x][2]))
+		print("'Upkeep_cost 3th index:' " + str(arg[x][3]))
+		print("'Resources 4th index:' " + str(arg[x][4]))
+		print()
 
 
+
+
+# Take in x pools and compute their stating resources(4th index)
+def calc_initial_resources(arg):
+	for x in range(len(arg)):
+		# print("'This is the miner_list before calc_initial_resources:' " + str(arg))
+		arg[x][4] = arg[x][2] * initial_resource_pool
+		# print("'This is the miner_list after calc_initial_resources:' " + str(arg) + "\n\n")
+
+
+
+
+
+# Take in x pools and sum 1th index to see computational size of the entire network.
+def calc_total_network_size(arg):
+	network_total_computational_size = 0
+	y = 0
+	for x in range(len(arg)):
+		# at the xth item, take the 1th index (conputational size of a single pool)
+		y = arg[x][1]
+		# print(arg[x][1])
+		network_total_computational_size += y
+		# print(network_total_computational_size)
+		# print("'The total computational power on the network across all pools:' " + str(list_arg))
+		# print(network_total_computational_size)
+
+
+print_list_details(list_of_all_pools_in_network)
+print()
+print()
+
+
+# just run the method on the entire network. easy game.
+calc_initial_resources(list_of_all_pools_in_network)
+
+calc_total_network_size(list_of_all_pools_in_network)
 
 print_all_pools(list_of_all_pools_in_network)
+
+
+print_list_details(list_of_all_pools_in_network)
+print()
+print()
+
 # options:
 # - invest in own computational power
 # - save up resources
