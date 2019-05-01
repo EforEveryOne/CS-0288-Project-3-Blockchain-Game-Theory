@@ -1,12 +1,7 @@
 import random
 
-
-# this price determines what is or isn't profitable.
-cryptocurrency_price = 5582.42
 # this is per 1 bitcoin as of 4/23/19
-
-# if a majority control attack happens, does the price drop?
-# price rises overtime?
+cryptocurrency_price = 5582.42
 
 
 # start with a number of users, will grow each step,
@@ -31,7 +26,6 @@ initial_resource_pool = 10000;
 # 2th = % total control of network, 1th * network_total_computational_size(sum of all pools 1th)
 # 3th = upkeep_cost(pool size * cost per round? not sure about this variable yet.)
 # 4th = pool resources(1th * initial_resource_pool) (this gets increased later via mining)
-
 
 # 17 pools.
 # info based on the past year of hashrates, 4/29/19
@@ -201,76 +195,12 @@ list_of_all_pools_in_network.append(BTCC_Pool)
 
 
 
-
-
-
-
-# for x in range(len(list_of_all_pools)):
-	# print_list_details(x)
-# how to represent control? 100% and just distribute a %?
-# # or actual number and convert to a %?
-# class miner_pool:
-# 	def __init__(self, name, total_control, size, upkeep_cost, resources):
-# 		self.name = name
-# 		self.total_control = total_control
-# 		self.size = size
-# 		self.upkeep_cost = size * 10
-# this will depend on energy cost. Should check pc price (for more mining computers)
-# and energy price required per 10 minutes (the average electricty consumption between blocks
-# that cost will be paid every 10 minutes (not exactly accurate but close enough)
-
-		# resources are the money/currency. Get rewarded it, pays for upkeep, etc
-		# self.resources = size * 100
-
-
-	# Example: AntPool.print_details()
-	# def print_details(self):
-	# 	print(self.name + ". \n"
-	# 		# Should be equvialent to total number / # of pools and % of it owned by the single pool
-	# 		# (pools resources * it's control)
-	# 		+ "Total_Control: " + str(self.total_control) + ". \n"
-	# 		# when increasing size, be sure to recalc upkeep_cost with current size
-	# 		+ "Size: " + str(self.size) + ". \n"
-	# 		# if size increases, be sure to say so
-	# 		+ "Upkeep_cost: " + str(self.upkeep_cost) + ". \n"
-
-	# 		+ "Resources: " + str(self.resources) + ". \n")
-
-	# def check_if_can_mine(self):
-	# 	if self.resources > self.upkeep_cost:
-	# 		print("check_if_can_mine -> true")
-	# 		return True
-	# 	else:
-	# 		print("check_if_can_mine -> false")
-	# 		return False
-			
-
-# We have a size, it doesn't really matter.
-# We total up all he sizes, and divide by 100 to see how much % control of the
-# network a single pool has.
-
-
-# price of computation
-# upkeep_cost = 1
-# is upkeep a better word?
-
-
-
-# take in all the pools as args
-# weighted chance for them to randomly solve the block
-# bigger pool = more weight = more upkeep cost
-def calc_win_chance(list_of_pools):
-	print()
-
-# mining should take in a single pool, then I can just call it for every pool
-# and append the weighted mining result to a list, the highest number will win and get the rewards.
-# list of map? dict?
-# list.append dict pool.name, mining weighted result?
-
+# MAIN
 
 # take in every single pool into mining
 # take in the miner_pool's as parameters
 def mining(x):
+
 	print("Processing current miner: " + str(x[1]) + ". ")
 	x[4] -= x[3]
 
@@ -280,8 +210,6 @@ def mining(x):
 	
 
 	print("Pool (argument) details: ")
-	# x.print_details()
-	# x.check_if_can_mine()
 
 	# y.print_details()
 	# y.check_if_can_mine()
@@ -295,23 +223,23 @@ def mining(x):
 
 	# calc_win_chance(x)
 	# somehow calc the probability of completing a block for pool_size
-	
-	# x.size
-	# y.size
-
-
-	# randint(1,)
-
-	# more completes = more rewards, but price of upkeep of computation 
 	winning_pool = x
 
 	claim_reward(winning_pool)
+##################
+	# pool_options_step()
+# TODO
+##################
+
+	# Final step.
+	calc_total_network_size(list_of_all_pools_in_network)
+
+	calc_individual_pool_control(list_of_all_pools_in_network)
 
 
 
 # be it expanding their own hardware or offloading onto other users through software
-# there remains an expansion cost.
-# expand computation price?
+# should be around the cost of a mining pc?
 upgrade_cost = 10
 
 
@@ -325,19 +253,15 @@ def claim_reward(winning_pool):
 	print("Winner: " + str(winning_pool[0]) + " Total resources after winning: " + str(winning_pool[4]))
 
 
-
-
-# MAIN
-# mining(BTC_com_Pool)
-
-
-
 def print_all_pools(arg):
 	for x in range(len(list_of_all_pools_in_network)):
 		print(str(list_of_all_pools_in_network[x]))
 
-def print_list_details(arg):
 
+
+
+
+def print_list_details(arg):
 	for x in range(len(arg)):
 		print("'Name_tag 0th index:' " + str(arg[x][0]))
 		print("'Computational_size 1th index:' " + str(arg[x][1]))
@@ -346,20 +270,40 @@ def print_list_details(arg):
 		print("'Resources 4th index:' " + str(arg[x][4]))
 		print()
 
+##########
+# Can do a simple sort like bubblesort to keep the largest at the first index of the list?
+# Make it easier to read output.
 
 
+# print_list_details(list_of_all_pools_in_network)
+print()
+print()
 
+# ########
+# SETUP
 # Take in x pools and compute their stating resources(4th index)
 def calc_initial_resources(arg):
 	for x in range(len(arg)):
 		# print("'This is the miner_list before calc_initial_resources:' " + str(arg))
+		# 4th = resources, which is based on % control * initial resources.
 		arg[x][4] = arg[x][2] * initial_resource_pool
 		# print("'This is the miner_list after calc_initial_resources:' " + str(arg) + "\n\n")
 
+def calc_pool_computation_size(arg):
+	for x in range(len(arg)):
+		# 1th = computational size, which is based on % control * initial resources.
+		arg[x][1] = arg[x][2] * initial_resource_pool
+		# print("'This is the miner_list after calc_initial_resources:' " + str(arg) + "\n\n")
+
+# The reason we need % total control and an actualized "computational quatity" is because the 
+# quantity will change as pools upgrades, but the total % control is a factor of the sum of pools
+# in the network.
+# Upkeep cost is related to the computational power of a pool, not the actual % control.
 
 
 
-
+#########
+# Initial + mining cleanup step.
 # Take in x pools and sum 1th index to see computational size of the entire network.
 def calc_total_network_size(arg):
 	network_total_computational_size = 0
@@ -371,25 +315,61 @@ def calc_total_network_size(arg):
 		network_total_computational_size += y
 		# print(network_total_computational_size)
 		# print("'The total computational power on the network across all pools:' " + str(list_arg))
-		# print(network_total_computational_size)
+		print(network_total_computational_size)
+
+	print_all_pools(list_of_all_pools_in_network)
+	calc_individual_pool_control(list_of_all_pools_in_network, network_total_computational_size)
+	print_all_pools(list_of_all_pools_in_network)
+
+	# print("TEST" + str(network_total_computational_size))
+	# call  calc_individual_pool_control(arg, network_total_computational_size) here?
+#####################################################################
+
+def calc_individual_pool_control(arg, network_total_computational_size):
+	for x in range(len(arg)):
+		# for each pool, computation
+		# arg[x][2] = arg[x][1] / 17
+		arg[x][2] = (arg[x][1] / network_total_computational_size) * 100
 
 
-print_list_details(list_of_all_pools_in_network)
-print()
-print()
+
+
+
+# take in all the pools as args
+# weighted chance for them to randomly solve the block
+# bigger pool = more weight = more upkeep cost
+def calc_win_chance(arg):
+
+	# loop over list of pools...
+	for x in range (len(arg)):
+		# x pool, 2th index (% network control)
+		arg[x][2]
+
+
+	
+
+# mining should take in a single pool, then I can just call it for every pool
+# and append the weighted mining result to a list, the highest number will win and get the rewards.
+# list of map? dict?
+# list.append dict pool.name, mining weighted result?
 
 
 # just run the method on the entire network. easy game.
 calc_initial_resources(list_of_all_pools_in_network)
+calc_pool_computation_size(list_of_all_pools_in_network)
 
 calc_total_network_size(list_of_all_pools_in_network)
+# print_list_details(list_of_all_pools_in_network)
 
-print_all_pools(list_of_all_pools_in_network)
-
-
-print_list_details(list_of_all_pools_in_network)
+calc_win_chance(list_of_all_pools_in_network)
 print()
 print()
+
+# print_all_pools(list_of_all_pools_in_network)
+# calc_individual_pool_control(list_of_all_pools_in_network)
+# print_all_pools(list_of_all_pools_in_network)
+# print(network_total_computational_size)
+
 
 # options:
 # - invest in own computational power
