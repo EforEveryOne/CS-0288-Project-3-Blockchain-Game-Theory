@@ -20,13 +20,186 @@ users = 10000
 initial_resource_pool = 100000;
 
 
-test_list_pool = [
+
+# 10000 * 18.8 is the size of BTC_com_Pool for example.
+# size increases at different rates, but we take the whole together
+# and divide acorss the 17 pools to find actualy ownership threshold.
+# We should recalculate this each "step"
+
+# 0th = name tag
+# 1th = computational_size/weight(2th * initial_resource_pool)
+# 2th = % total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+# 3th = upkeep_cost(pool size * cost per round? not sure about this variable yet.)
+# 4th = pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+
+
+# 17 pools.
+# info based on the past year of hashrates, 4/29/19
+BTC_com_Pool = [
 1, #0th index name tag
 0, #1th index computational_size
 18.8, #2th index control %
-4, #3th index upkeep cost (size(value in the 1th index) * something)
-5 #4th index resources (initial start is size * something)
+0, #3th index upkeep cost (size(value in the 1th index) * something)
+0 #4th index resources (initial start is size * something)
 ]
+
+AntPool = [
+2, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+13.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+SlushPool = [
+3, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+10.7, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+ViaBTC_Pool = [
+4, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+9.5, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+F2Pool = [
+5, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+9.5, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+BTC_TOP_Pool = [
+6, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+8.9, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+Poolin_Pool = [
+7, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+6.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+unknown_Pool = [
+8, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+4.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+DPOOL_Pool = [
+9, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+3.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+BitFury_Pool = [
+10, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+2.5, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+BitClub_Pool = [
+11, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+2.3, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+Huobi_Pool = [
+12, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+2.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+Bixin_pool = [
+13, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+1.4, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+WAYI_CN_Pool = [
+14, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+1.3, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+Bitcoin_com_Pool = [
+15, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+1.2, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+BWPool = [
+16, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+0.9, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+BTCC_Pool = [
+17, #0th index name tag
+0, #computational_size/weight(2th * initial_resource_pool)
+0.7, #% total control of network, 1th * network_total_computational_size(sum of all pools 1th)
+0, #3th upkeep_cost(pool_computational_size * cost per round? not sure about this variable yet.)
+0 #pool resources(1th * initial_resource_pool) (this gets increased later via mining)
+]
+
+
+list_of_all_pools_in_network = []
+list_of_all_pools_in_network.append(BTC_com_Pool)
+list_of_all_pools_in_network.append(AntPool)
+list_of_all_pools_in_network.append(SlushPool)
+list_of_all_pools_in_network.append(ViaBTC_Pool)
+list_of_all_pools_in_network.append(F2Pool)
+list_of_all_pools_in_network.append(BTC_TOP_Pool)
+list_of_all_pools_in_network.append(Poolin_Pool)
+list_of_all_pools_in_network.append(unknown_Pool)
+list_of_all_pools_in_network.append(DPOOL_Pool)
+list_of_all_pools_in_network.append(BitFury_Pool)
+list_of_all_pools_in_network.append(BitClub_Pool)
+list_of_all_pools_in_network.append(Huobi_Pool)
+list_of_all_pools_in_network.append(Bixin_pool)
+list_of_all_pools_in_network.append(WAYI_CN_Pool)
+list_of_all_pools_in_network.append(Bitcoin_com_Pool)
+list_of_all_pools_in_network.append(BWPool)
+list_of_all_pools_in_network.append(BTCC_Pool)
+
+
+# Grab first pool
+print(list_of_all_pools_in_network[1])
+# grab 3th index of the 1st pool
+print(list_of_all_pools_in_network[1][2])
+
+# 
+print(list_of_all_pools_in_network[1][2] * list_of_all_pools_in_network[1][2])
+
 
 
 # test_list_pool.append(1, 18.8, 1000, )
@@ -35,11 +208,23 @@ test_list_pool = [
 # test_list_pool[1] = (test_list_pool[2] * initial_resource_pool)
 
 def calc_initial_resources(miner_pool_arg):
-	print(miner_pool_arg)
+	print("'This is the miner_list before calc_initial_resources:' " + str(miner_pool_arg))
 	miner_pool_arg[1] = (miner_pool_arg[2] * initial_resource_pool)
-	print(miner_pool_arg)
+	print("'This is the miner_list after calc_initial_resources:' " + str(miner_pool_arg) + "\n\n")
 
-calc_initial_resources(test_list_pool)
+calc_initial_resources(BTC_com_Pool)
+calc_initial_resources(AntPool)
+
+# calc_initial_resources(list_of_all_pools)
+# size of computational power from each list 
+
+
+network_total_computational_size = BTC_com_Pool[1] + AntPool[1]
+
+
+print("'The total computational power on the network across all pools:' " + str(network_total_computational_size))
+
+
 
 
 def print_list_details(miner_pool_arg):
@@ -50,45 +235,56 @@ def print_list_details(miner_pool_arg):
 	print("'Resources @4th index:' " + str(miner_pool_arg[4]))
 
 
-print_list_details(test_list_pool)
+
+print_list_details(BTC_com_Pool)
+print()
+print()
+print_list_details(AntPool)
+print()
+print()
 
 
+print_list_details(list_of_all_pools_in_network)
+
+
+# for x in range(len(list_of_all_pools)):
+	# print_list_details(x)
 # how to represent control? 100% and just distribute a %?
-# or actual number and convert to a %?
-class miner_pool:
-	def __init__(self, name, total_control, size, upkeep_cost, resources):
-		self.name = name
-		self.total_control = total_control
-		self.size = size
-		self.upkeep_cost = size * 10
+# # or actual number and convert to a %?
+# class miner_pool:
+# 	def __init__(self, name, total_control, size, upkeep_cost, resources):
+# 		self.name = name
+# 		self.total_control = total_control
+# 		self.size = size
+# 		self.upkeep_cost = size * 10
 # this will depend on energy cost. Should check pc price (for more mining computers)
 # and energy price required per 10 minutes (the average electricty consumption between blocks
 # that cost will be paid every 10 minutes (not exactly accurate but close enough)
 
 		# resources are the money/currency. Get rewarded it, pays for upkeep, etc
-		self.resources = size * 100
+		# self.resources = size * 100
 
 
 	# Example: AntPool.print_details()
-	def print_details(self):
-		print(self.name + ". \n"
-			# Should be equvialent to total number / # of pools and % of it owned by the single pool
-			# (pools resources * it's control)
-			+ "Total_Control: " + str(self.total_control) + ". \n"
-			# when increasing size, be sure to recalc upkeep_cost with current size
-			+ "Size: " + str(self.size) + ". \n"
-			# if size increases, be sure to say so
-			+ "Upkeep_cost: " + str(self.upkeep_cost) + ". \n"
+	# def print_details(self):
+	# 	print(self.name + ". \n"
+	# 		# Should be equvialent to total number / # of pools and % of it owned by the single pool
+	# 		# (pools resources * it's control)
+	# 		+ "Total_Control: " + str(self.total_control) + ". \n"
+	# 		# when increasing size, be sure to recalc upkeep_cost with current size
+	# 		+ "Size: " + str(self.size) + ". \n"
+	# 		# if size increases, be sure to say so
+	# 		+ "Upkeep_cost: " + str(self.upkeep_cost) + ". \n"
 
-			+ "Resources: " + str(self.resources) + ". \n")
+	# 		+ "Resources: " + str(self.resources) + ". \n")
 
-	def check_if_can_mine(self):
-		if self.resources > self.upkeep_cost:
-			print("check_if_can_mine -> true")
-			return True
-		else:
-			print("check_if_can_mine -> false")
-			return False
+	# def check_if_can_mine(self):
+	# 	if self.resources > self.upkeep_cost:
+	# 		print("check_if_can_mine -> true")
+	# 		return True
+	# 	else:
+	# 		print("check_if_can_mine -> false")
+	# 		return False
 			
 
 # We have a size, it doesn't really matter.
@@ -96,54 +292,30 @@ class miner_pool:
 # network a single pool has.
 
 
-# 10000 * 18.8 is the size of BTC_com_Pool for example.
-# size increases at different rates, but we take the whole together
-# and divide acorss the 17 pools to find actualy ownership threshold.
-# We should recalculate this each "step"
 
 
 
-BTC_com_Pool = miner_pool("BTC_com_Pool", 18.8, 1000, 10, 0)
-AntPool = miner_pool("AntPool", 13.2, 1000, 10, 0)
-SlushPool = miner_pool("SlushPool", 10.7, 1000, 10, 0)
-ViaBTC_Pool = miner_pool("ViaBTC_Pool", 9.5, 1000, 10, 0)
-F2Pool = miner_pool("F2Pool", 9.5, 1000, 10, 1000)
-BTC_TOP_Pool = miner_pool("BTC_TOP_Pool", 8.9, 1000, 10, 0)
-Poolin_Pool = miner_pool("Poolin_Pool", 6.2, 1000, 10, 0)
-unknown_Pool = miner_pool("unknown_Pool", 4.2, 1000, 10, 0)
-DPOOL_Pool = miner_pool("DPOOL_Pool", 3.2, 1000, 10, 0)
-BitFury_Pool = miner_pool("BitFury_Pool", 2.5, 1000, 10, 0)
-BitClub_Pool = miner_pool("BitClub_Pool", 2.3, 1000, 10, 0)
-Huobi_Pool = miner_pool("Huobi_Pool", 2.2, 1000, 10, 0)
-Bixin_pool = miner_pool("Bixin_pool", 1.4, 1000, 10, 0)
-WAYI_CN_Pool = miner_pool("WAYI_CN_Pool", 1.3, 1000, 10, 0)
-Bitcoin_com_Pool = miner_pool("Bitcoin_com_Pool", 1.2, 1000, 10, 0)
-BWPool = miner_pool("BWPool", 0.9, 1000, 10, 0)
-BTCC_Pool = miner_pool("BTCC_Pool", 0.7, 1000, 10, 0)
 
-# 17 pools.
+# list_of_pools = []
+# list_of_pools.append(BTC_com_Pool)
+# list_of_pools.append(AntPool)
+# list_of_pools.append(SlushPool)
+# list_of_pools.append(ViaBTC_Pool)
+# list_of_pools.append(F2Pool)
+# list_of_pools.append(BTC_TOP_Pool)
+# list_of_pools.append(Poolin_Pool)
+# list_of_pools.append(unknown_Pool)
+# list_of_pools.append(DPOOL_Pool)
+# list_of_pools.append(BitFury_Pool)
+# list_of_pools.append(BitClub_Pool)
+# list_of_pools.append(Huobi_Pool)
+# list_of_pools.append(Bixin_pool)
+# list_of_pools.append(WAYI_CN_Pool)
+# list_of_pools.append(Bitcoin_com_Pool)
+# list_of_pools.append(BWPool)
+# list_of_pools.append(BTCC_Pool)
 
-
-list_of_pools = []
-list_of_pools.append(BTC_com_Pool)
-list_of_pools.append(AntPool)
-list_of_pools.append(SlushPool)
-list_of_pools.append(ViaBTC_Pool)
-list_of_pools.append(F2Pool)
-list_of_pools.append(BTC_TOP_Pool)
-list_of_pools.append(Poolin_Pool)
-list_of_pools.append(unknown_Pool)
-list_of_pools.append(DPOOL_Pool)
-list_of_pools.append(BitFury_Pool)
-list_of_pools.append(BitClub_Pool)
-list_of_pools.append(Huobi_Pool)
-list_of_pools.append(Bixin_pool)
-list_of_pools.append(WAYI_CN_Pool)
-list_of_pools.append(Bitcoin_com_Pool)
-list_of_pools.append(BWPool)
-list_of_pools.append(BTCC_Pool)
-
-print(list_of_pools)
+# print(list_of_pools)
 
 def calc_total_control(x):
 	x.size
@@ -160,14 +332,15 @@ def calc_total_control(x):
 # weighted chance for them to randomly solve the block
 # bigger pool = more weight = more upkeep cost
 def calc_win_chance(list_of_pools):
+	print()
 
 
 
-	for x in range(0, 17):
+	# for x in range(0, 17):
 		# print(x.name)
 		# print(x[0])
-		print(x)
-		print(list_of_pools.name)
+		# print(x)
+		# print(list_of_pools.name)
 
 
 
@@ -175,12 +348,6 @@ def calc_win_chance(list_of_pools):
 		# print(list_of_pools[i].name)
 
 		# print(i.resources)
-
-
-
-
-	# x.size
-	# y.size
 
 
 # mining should take in a single pool, then I can just call it for every pool
@@ -192,17 +359,18 @@ def calc_win_chance(list_of_pools):
 # take in every single pool into mining
 # take in the miner_pool's as parameters
 def mining(x):
-	print("Processing current miner: " + str(x.name) + ". ")
-	x.resources -= x.upkeep_cost
+	print("Processing current miner: " + str(x[1]) + ". ")
+	x[4] -= x[3]
 
-	if (x.check_if_can_mine() == True):
-		print("\ntest if can mine is TRUE\n")
+	# if (x.check_if_can_mine() == True):
+		# print("\ntest if can mine is TRUE\n")
 
 	
 
 	print("Pool (argument) details: ")
-	x.print_details()
-	x.check_if_can_mine()
+	# x.print_details()
+	# x.check_if_can_mine()
+
 	# y.print_details()
 	# y.check_if_can_mine()
 	# random chance that a pool completes the block
@@ -213,7 +381,7 @@ def mining(x):
 	# all arguments name.resources -= cost.
 
 
-	calc_win_chance(x)
+	# calc_win_chance(x)
 	# somehow calc the probability of completing a block for pool_size
 	
 	# x.size
@@ -226,7 +394,6 @@ def mining(x):
 	winning_pool = x
 
 	claim_reward(winning_pool)
-	x.check_if_can_mine()
 
 
 
@@ -241,9 +408,9 @@ upgrade_cost = 10
 reward_for_block = 12.5 # + whatever transaction service fees were paid for the block.
 
 def claim_reward(winning_pool):
-	print("Winner: " + winning_pool.name + " Total resources before winning: " + str(winning_pool.resources))
-	winning_pool.resources += (12.5 * cryptocurrency_price)
-	print("Winner: " + winning_pool.name + " Total resources after winning: " + str(winning_pool.resources))
+	print("Winner: " + str(winning_pool[0]) + " Total resources before winning: " + str(winning_pool[4]))
+	winning_pool[4] += (12.5 * cryptocurrency_price)
+	print("Winner: " + str(winning_pool[0]) + " Total resources after winning: " + str(winning_pool[4]))
 
 
 
@@ -251,9 +418,14 @@ def claim_reward(winning_pool):
 # MAIN
 mining(BTC_com_Pool)
 
-# F2Pool.check_if_can_mine()
+
+def print_all_pools(list):
+	for x in range(len(list_of_all_pools_in_network)):
+		print(list_of_all_pools_in_network[x])
 
 
+
+print_all_pools(list_of_all_pools_in_network)
 # options:
 # - invest in own computational power
 # - save up resources
@@ -274,3 +446,15 @@ mining(BTC_com_Pool)
 # 		- collaborate with other network (understand in theor but not hwo to code)
 
 # When does this forking happen on a network like bitcoin?
+
+
+
+# If for whatever reason, no one progresses to the point of 51%, then that's worth exploring.
+# Maybe they just can't do it in such a big combination of seperate pools.
+
+# Otherwise, maybe it's interesting because a pool does reach there,
+# and we see that pools deliberately split to avoid it.
+# OR what tweaks increase or decrease the rate of reachign 51%?
+
+# First question, can it be done in the realistic but simplified context?
+# The big question is, when is it worth doing?
