@@ -3,6 +3,19 @@ import random
 # this is per 1 bitcoin as of 4/23/19
 cryptocurrency_price = 5582.42
 
+# current bitcoin reward for completing a block
+# reward for finishing block. goes to 1 single pool.
+reward_for_block = 12.5 # + whatever transaction service fees were paid for the block.
+
+
+
+# https://grisha.org/blog/2017/09/28/electricity-cost-of-1-bitcoin/
+# https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a
+# Used both above articles to get a guesstimate of upkeep cost.
+
+# Took the cheapest of all sectors. which is 8.25 cents and divide it by 60 to get minutes.
+# * 10 to get avg 10 min cost.
+
 
 # start with a number of users, will grow each step,
 # might decrease if majority attack succeeds and undermines the network.
@@ -12,7 +25,18 @@ users = 10000
 # do users drop when majority attack happens?
 # if happens too often, users SHOULD lose confidence and leave the network
 
-initial_resource_pool = 10000;
+initial_resource_pool = 10000
+
+# per 10 min mine, so per 1 mining of a block per a single computational size of a pool
+upkeep_cost = 0.4
+
+# Price of a specific mining machine.
+upgrade_cost = 2100
+
+
+
+
+
 
 
 
@@ -186,23 +210,17 @@ list_of_all_pools_in_network.append(BWPool)
 list_of_all_pools_in_network.append(BTCC_Pool)
 
 
-# Grab first pool
-# print(list_of_all_pools_in_network[1])
-# grab 3th index of the 1st pool
-# print(list_of_all_pools_in_network[1][2])
+# take in the list_of_all_pools_in_network's as parameter
+def mining(arg):
+	print("Starting mining step... ")
+	for x in range(len(arg)):
+		print("miner resources BEFORE upkeep: : " + str(arg[x][4]) + ". ")
+		# Each pool pays (4th, resources) cost (3th, upkeep_cost)
+		if arg[x][4] > arg[3]
+		arg[x][4] -= arg[x][3]
 
-# print(list_of_all_pools_in_network[1][2] * list_of_all_pools_in_network[1][2])
 
-
-
-# MAIN
-
-# take in every single pool into mining
-# take in the miner_pool's as parameters
-def mining(x):
-
-	print("Processing current miner: " + str(x[1]) + ". ")
-	x[4] -= x[3]
+		print("miner resources AFTER upkeep: " + str(arg[x][4]) + ". ")
 
 	# if (x.check_if_can_mine() == True):
 		# print("\ntest if can mine is TRUE\n")
@@ -233,24 +251,16 @@ def mining(x):
 
 	# Final step.
 	calc_total_network_size(list_of_all_pools_in_network)
-
-	calc_individual_pool_control(list_of_all_pools_in_network)
-
+	# this also goes into calc_individual_pool_control() for us.
 
 
-# be it expanding their own hardware or offloading onto other users through software
-# should be around the cost of a mining pc?
-upgrade_cost = 10
 
-
-# current bitcoin reward for completing a block
-# reward for finishing block. goes to 1 single pool.
-reward_for_block = 12.5 # + whatever transaction service fees were paid for the block.
 
 def claim_reward(winning_pool):
-	print("Winner: " + str(winning_pool[0]) + " Total resources before winning: " + str(winning_pool[4]))
-	winning_pool[4] += (12.5 * cryptocurrency_price)
-	print("Winner: " + str(winning_pool[0]) + " Total resources after winning: " + str(winning_pool[4]))
+	print("Nothing in claim_reward() yet")
+	# print("Winner: " + str(winning_pool[0]) + " Total resources before winning: " + str(winning_pool[4]))
+	# winning_pool[4] += (12.5 * cryptocurrency_price)
+	# print("Winner: " + str(winning_pool[0]) + " Total resources after winning: " + str(winning_pool[4]))
 
 
 def print_all_pools(arg):
@@ -277,7 +287,7 @@ def print_list_details(arg):
 
 # print_list_details(list_of_all_pools_in_network)
 print()
-print()
+
 
 # ########
 # SETUP
@@ -289,10 +299,15 @@ def calc_initial_resources(arg):
 		arg[x][4] = arg[x][2] * initial_resource_pool
 		# print("'This is the miner_list after calc_initial_resources:' " + str(arg) + "\n\n")
 
-def calc_pool_computation_size(arg):
+# pool is individual
+def spend_resources_on_upgrade(arg):
 	for x in range(len(arg)):
 		# 1th = computational size, which is based on % control * initial resources.
-		arg[x][1] = arg[x][2] * initial_resource_pool
+		# arg[x][1] = arg[x][2] * initial_resource_pool
+
+		# "computational quatity" is a pools representation of hardware.
+		# Because resources are spent, we just += the 1th, computational size index.
+		arg[x][1] += arg[x][4] / upgrade_cost
 		# print("'This is the miner_list after calc_initial_resources:' " + str(arg) + "\n\n")
 
 # The reason we need % total control and an actualized "computational quatity" is because the 
@@ -317,19 +332,24 @@ def calc_total_network_size(arg):
 		# print("'The total computational power on the network across all pools:' " + str(list_arg))
 		print(network_total_computational_size)
 
-	print_all_pools(list_of_all_pools_in_network)
+	# print_all_pools(list_of_all_pools_in_network)
 	calc_individual_pool_control(list_of_all_pools_in_network, network_total_computational_size)
-	print_all_pools(list_of_all_pools_in_network)
+	# print_all_pools(list_of_all_pools_in_network)
 
 	# print("TEST" + str(network_total_computational_size))
 	# call  calc_individual_pool_control(arg, network_total_computational_size) here?
 #####################################################################
 
 def calc_individual_pool_control(arg, network_total_computational_size):
+	test = 0
 	for x in range(len(arg)):
 		# for each pool, computation
 		# arg[x][2] = arg[x][1] / 17
 		arg[x][2] = (arg[x][1] / network_total_computational_size) * 100
+		test += arg[x][2]
+	print("Should be 100: " + str(test))
+	# sums to 100, good! it works.
+	calc_individual_upkeep_cost(arg)
 
 
 
@@ -346,28 +366,30 @@ def calc_win_chance(arg):
 		arg[x][2]
 
 
-	
-
-# mining should take in a single pool, then I can just call it for every pool
-# and append the weighted mining result to a list, the highest number will win and get the rewards.
-# list of map? dict?
-# list.append dict pool.name, mining weighted result?
-
+def calc_individual_upkeep_cost(arg):
+	for x in range(len(arg)):
+		arg[x][3] = upkeep_cost * arg[x][1]
+	# print
 
 # just run the method on the entire network. easy game.
 calc_initial_resources(list_of_all_pools_in_network)
-calc_pool_computation_size(list_of_all_pools_in_network)
+spend_resources_on_upgrade(list_of_all_pools_in_network)
 
 calc_total_network_size(list_of_all_pools_in_network)
 # print_list_details(list_of_all_pools_in_network)
 
-calc_win_chance(list_of_all_pools_in_network)
+mining(list_of_all_pools_in_network)
+
+# calc_win_chance(list_of_all_pools_in_network)
 print()
 print()
 
 # print_all_pools(list_of_all_pools_in_network)
 # calc_individual_pool_control(list_of_all_pools_in_network)
-# print_all_pools(list_of_all_pools_in_network)
+print_all_pools(list_of_all_pools_in_network)
+mining(list_of_all_pools_in_network)
+
+print_all_pools(list_of_all_pools_in_network)
 # print(network_total_computational_size)
 
 
