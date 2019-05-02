@@ -1,4 +1,4 @@
-# import random
+import random
 from random import randint
 
 # this is per 1 bitcoin as of 4/23/19
@@ -93,6 +93,8 @@ def mining(arg):
 
 
 		print("pool id:["+str(arg[x][0])+"] resources AFTER upkeep: " + str(arg[x][4]) + ". ")
+	print("")
+	print("")
 
 	calc_winner(arg)
 
@@ -115,19 +117,12 @@ def mining(arg):
 	calc_total_network_size(arg)
 
 
-
-
 def claim_reward(winning_pool):
 	print("nothing")
-
 
 def print_all_pools(arg):
 	for x in range(len(list_of_all_pools_in_network)):
 		print(str(list_of_all_pools_in_network[x]))
-
-
-
-
 
 def print_list_details(arg):
 	for x in range(len(arg)):
@@ -162,9 +157,9 @@ def spend_resources_on_upgrade(arg):
 
 		# "computational quatity" is a pools representation of hardware.
 		# Because resources are spent, we just += the 1th, computational size index.
+		upgrade_count = 0
 		if arg[x][4] > upgrade_cost and arg[x][4] > arg[x][3] * 144: # 144 represents an entire day as 10 minute chunks.
 			print("\n\nUpgrading pool #" + str(arg[x][0]) + " \nBEFORE: resources: " + str(arg[x][4]) +" \nUpkeep cost: "+ str(arg[x][3]))
-			upgrade_count = 0
 			# while x pool has resources to spend
 			while arg[x][4] > upgrade_cost and arg[x][4] > arg[x][3] * 144:
 				arg[x][4] -= upgrade_cost
@@ -217,30 +212,26 @@ def calc_individual_upkeep_cost(arg):
 def calc_winner(arg):
 
 # If the number is within the computational range of the roll, that pool wins.
-	win_num = randint(1, 100)
+	win_num = (random.random() * 100)
+	i = 0
 	print("Winning number: " + str(win_num))
-	# we check each pool and += onto the %control
-	# and see if the number is within the range of their control
-	# (the previous value and their end value)
+	# we check each pool and += onto the %control and see if the number is within the range of their control
 
 	# loop over list of pools...
 	for x in range (len(arg)):
-		# grab the % network control from the pool
-		i = arg[x][2]
+		print("Checking pool id:["+str(arg[x][0])+"]")
 
-
-	winning_pool = arg[x]
-
-
-	print("Winner: " + str(winning_pool[0]) + " Total resources before winning: " + str(winning_pool[4]))
-	winning_pool[4] += (cryptocurrency_price * reward_for_block)
-	print("Winner: " + str(winning_pool[0]) + " Total resources after winning: " + str(winning_pool[4]))
-
-
-		
-
-		# x pool, 2th index (% network control)
-		# arg[x][2]
+		# grab the % network control from the pool	
+		i += arg[x][2]
+		if win_num <= i:
+			winner = arg[x]
+			print("pool id:["+str(arg[x][0])+"] WON!" )
+			break
+		else:
+			print("pool id:["+str(arg[x][0])+"] didn't win. \n\nChecking next pool." )
+	print("Winner: " + str(arg[x][0]) + " Total resources before winning: " + str(arg[x][4]))
+	arg[x][4] += (cryptocurrency_price * reward_for_block)
+	print("Winner: " + str(arg[x][0]) + " Total resources after winning: " + str(arg[x][4]))
 
 #################################
 # Initialize the pool variables #
@@ -257,15 +248,25 @@ calc_total_network_size(list_of_all_pools_in_network)
 		# arg[x][3] = upkeep_cost * arg[x][1]
 
 
-# print_list_details(list_of_all_pools_in_network)
 
-print_all_pools(list_of_all_pools_in_network)
+# print_all_pools(list_of_all_pools_in_network)
 
-mining(list_of_all_pools_in_network)
+# mining(list_of_all_pools_in_network)
 
-print_all_pools(list_of_all_pools_in_network)
-# print(network_total_computational_size)
+# print_all_pools(list_of_all_pools_in_network)
 
+rounds = 0
+def process_rounds(list_of_all_pools_in_network, rounds):	
+	if rounds <= 100:
+		mining(list_of_all_pools_in_network)
+		rounds += 1
+		process_rounds(list_of_all_pools_in_network, rounds)
+	else:
+		print("\n\n" + str(rounds) + " have been completed. ")
+		print_list_details(list_of_all_pools_in_network)
+
+
+process_rounds(list_of_all_pools_in_network, rounds)
 
 # options:
 # - invest in own computational power
