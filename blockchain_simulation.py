@@ -91,7 +91,7 @@ def mining(arg):
 				"\nUpkeep cost: " + str(arg[x][3]) + ". ")
 
 
-		print("miner resources AFTER upkeep: " + str(arg[x][4]) + ". ")
+		print("pool id:["+str(arg[x][0])+"] resources AFTER upkeep: " + str(arg[x][4]) + ". ")
 
 	# calc_win_chance(arg)
 	winning_pool = arg[x]
@@ -108,7 +108,7 @@ def mining(arg):
 ##################
 
 	# Final step.
-	calc_total_network_size(list_of_all_pools_in_network)
+	calc_total_network_size(arg)
 	# this also goes into calc_individual_pool_control() for us.
 
 
@@ -150,59 +150,35 @@ def calc_initial_resources_and_size(arg):
 		# also give them their starting computation size relative to their control.
 		arg[x][1] = arg[x][4] / upgrade_cost
 
-
-
-
-
 # pool is individual
 def spend_resources_on_upgrade(arg):
 	calc_individual_upkeep_cost(arg)
 	for x in range(len(arg)):
 		# 1th = computational size, which is based on % control * initial resources.
 		# arg[x][1] = arg[x][2] * initial_resource_pool
-		print("miner resources BEFORE upgrade: : " + str(arg[x][4]) + ". ")
+		print("\nPool resources BEFORE upgrade: : " + str(arg[x][4]) + ". ")
 
 		# "computational quatity" is a pools representation of hardware.
 		# Because resources are spent, we just += the 1th, computational size index.
 		if arg[x][4] > upgrade_cost and arg[x][4] > arg[x][3] * 2500:
-			print("Upgrading pool #" + str(arg[x][0]) +"resources: "+ str(arg[x][4]))
+			print("Upgrading pool #" + str(arg[x][0]) +" \nresources: "+ str(arg[x][4]))
 			upgrade_count = 0
+			# while x pool has resources to spend
 			while arg[x][4] > upgrade_cost:
 				arg[x][4] -= upgrade_cost
 				upgrade_count += 1
 
-			print("Upgrade count: " + str(upgrade_count) + "arg[x][1] BEFORE:" + str(arg[x][1]))
+			print("Upgrade count: " + str(upgrade_count) + " \nComputatial size BEFORE:" + str(arg[x][1]))
+
 			arg[x][1] += upgrade_count
-			print("arg[x][1] AFTER:" + str(arg[x][1]))
-
-
-
-
-
-
-
-			j = arg[x][4] / upgrade_cost
-			arg[x][1] += j
-			arg[x][4] -= j * upgrade_cost
+			print("Computatial size AFTER:" + str(arg[x][1]))
 		else:
 			print("pool id:["+str(arg[x][0])+"] doesn't have enough resources for upgrade. " +
 				"\nCurrent resources: " + str(arg[x][4]))
 
+		print("Pool resources AFTER upgrade: : " + str(arg[x][4]) + ". ")
 
-		print("miner resources AFTER upgrade: : " + str(arg[x][4]) + ". ")
-		# print("'This is the miner_list after calc_initial_resources_and_size:' " + str(arg) + "\n\n")
-
-# The reason we need % total control and an actualized "computational quatity" is because the 
-# quantity will change as pools upgrades, but the total % control is a factor of the sum of pools
-# in the network.
-# Upkeep cost is related to the computational power of a pool, not the actual % control.
-
-
-
-
-
-
-#########
+####################################
 # Initial + mining cleanup step.
 # Take in x pools and sum 1th index to see computational size of the entire network.
 def calc_total_network_size(arg):
@@ -211,18 +187,10 @@ def calc_total_network_size(arg):
 	for x in range(len(arg)):
 		# at the xth item, take the 1th index (conputational size of a single pool)
 		y = arg[x][1]
-		# print(arg[x][1])
 		network_total_computational_size += y
-		# print(network_total_computational_size)
-		# print("'The total computational power on the network across all pools:' " + str(list_arg))
-		print(network_total_computational_size)
-
-	# print_all_pools(list_of_all_pools_in_network)
+	print("'The total computational power on the network across all pools:' "
+		+ str(network_total_computational_size) + ". ")
 	calc_individual_pool_control(list_of_all_pools_in_network, network_total_computational_size)
-	# print_all_pools(list_of_all_pools_in_network)
-
-	# print("TEST" + str(network_total_computational_size))
-#####################################################################
 
 def calc_individual_pool_control(arg, network_total_computational_size):
 	test = 0
@@ -239,7 +207,7 @@ def calc_individual_upkeep_cost(arg):
 	for x in range(len(arg)):
 		arg[x][3] = upkeep_cost * arg[x][1]
 		# print(arg[x][3])
-
+####################################
 
 
 
@@ -261,13 +229,11 @@ calc_initial_resources_and_size(list_of_all_pools_in_network)
 # arg[x][1] = arg[x][4] / upgrade_cost
 
 calc_total_network_size(list_of_all_pools_in_network)
-	# calls calc_individual_pool_control()
-		# which calls calc_individua_upkeep_cost() 
+	# calls calc_individual_pool_control() which gives the pool [2]
+		# which calls calc_individual_upkeep_cost() which gives [3]
+		# arg[x][3] = upkeep_cost * arg[x][1]
 
 
-# Initial upkeep cost for mining, we call this each new mining block to update it.
-calc_individual_upkeep_cost(list_of_all_pools_in_network)
-# arg[x][3] = upkeep_cost * arg[x][1]
 # this requires we have [1] already calculated.
 
 
